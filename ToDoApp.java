@@ -1,33 +1,5 @@
-Step-by-Step Guide
-1️⃣ Install Java & IDE
-
-Install JDK (Java Development Kit) → https://www.oracle.com/java/technologies/downloads/
-
-Install IntelliJ IDEA Community Edition → https://www.jetbrains.com/idea/download/
-(or Eclipse if you prefer)
-
-2️⃣ Create a New Project
-
-Open IntelliJ → New Project
-
-Choose Java → Set JDK path.
-
-Name the project: ToDoApp
-
-3️⃣ Add Java File
-
-Right-click src → New → Java Class
-
-Name it: ToDoApp
-
-4️⃣ Write the Code
-
-Here’s a simple To-Do App with Add and Delete functionality:
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 public class ToDoApp extends JFrame {
     private DefaultListModel<String> taskListModel;
@@ -35,13 +7,11 @@ public class ToDoApp extends JFrame {
     private JTextField taskField;
 
     public ToDoApp() {
-        // Frame settings
         setTitle("To-Do List App");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Components
         taskListModel = new DefaultListModel<>();
         taskList = new JList<>(taskListModel);
         JScrollPane scrollPane = new JScrollPane(taskList);
@@ -50,21 +20,18 @@ public class ToDoApp extends JFrame {
         JButton addButton = new JButton("Add Task");
         JButton deleteButton = new JButton("Delete Task");
 
-        // Panel for input and buttons
-        JPanel inputPanel = new JPanel(new BorderLayout());
+        JPanel inputPanel = new JPanel(new BorderLayout(8, 8));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         inputPanel.add(taskField, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(addButton);
-        buttonPanel.add(deleteButton);
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttons.add(addButton);
+        buttons.add(deleteButton);
+        inputPanel.add(buttons, BorderLayout.SOUTH);
 
-        inputPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Add components to frame
         add(scrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
-        // Add button action
         addButton.addActionListener(e -> {
             String task = taskField.getText().trim();
             if (!task.isEmpty()) {
@@ -75,17 +42,15 @@ public class ToDoApp extends JFrame {
             }
         });
 
-        // Delete button action
         deleteButton.addActionListener(e -> {
-            int selectedIndex = taskList.getSelectedIndex();
-            if (selectedIndex != -1) {
-                taskListModel.remove(selectedIndex);
-            } else {
+            int idx = taskList.getSelectedIndex();
+            if (idx != -1)
+                taskListModel.remove(idx);
+            else
                 JOptionPane.showMessageDialog(this, "Select a task to delete!");
-            }
         });
 
-        // Show frame
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -93,14 +58,3 @@ public class ToDoApp extends JFrame {
         SwingUtilities.invokeLater(ToDoApp::new);
     }
 }
-
-
-5️⃣ Run the App
-
-Click Run in IntelliJ.
-
-You’ll get a GUI window:
-
-Type a task → click Add Task.
-
-Select a task → click Delete Task.
